@@ -21,6 +21,9 @@ class Train(APIView):
         model_name = request.data.pop('model_name')
 
         try:
+            if "hidden_layer_sizes" in request.data:
+                print("ok")
+                request.data["hidden_layer_sizes"] = tuple(request.data["hidden_layer_sizes"])
             clf = MLPClassifier(**request.data)
             clf.fit(X, y)
         except Exception as err:
@@ -41,10 +44,11 @@ class Predict(APIView):
             with open(path, 'rb') as file:
                 model = pickle.load(file)
             try:
-                result = model.predict(pd.DataFrame(np.array(entry)))
+                result = model.predict(pd.DataFrame([entry]))
                 predictions.append(result[0])
 
             except Exception as err:
+                print(err)
                 return Response(str(err), status=status.HTTP_400_BAD_REQUEST)
 
         return Response(predictions, status=status.HTTP_200_OK)
