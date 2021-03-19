@@ -1,6 +1,6 @@
 certifi==2019.6.16
 Django==2.2.3
-djangorestframework==3.10.2
+djangorestframework==3.11.2
 joblib==0.13.2
 numpy==1.17.0
 pandas==0.25.0
